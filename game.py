@@ -1,5 +1,5 @@
 import pygame
-
+import random
 
 #showing image using pay game 
 
@@ -45,11 +45,40 @@ img_y = 0
 image_x_size= X*scale_x
 image_y_size = Y*scale_y
 
+button_pos = {
+    "moveX-":            [(36 , 83 ), (132, 158), 0],
+    "moveX+":            [(142, 86 ), (236, 159), 0],
+    
+    "moveY-":            [(36 , 200), (132, 274), 0],
+    "moveY+":            [(137, 201), (233, 271), 0],
+
+    "fast_adjust-":      [(36 , 310), (128, 383), 0],
+    "fast_adjust+":      [(138, 312), (233, 385), 0],
+
+    "slow_adjust-":      [(36 , 422), (132, 496), 0],
+    "slow_adjust+":      [(138, 426), (232, 498), 0],
+
+    "brighten_inc":      [(251, 541), (489, 641), 0],
+    "brighten_dec":      [(22 , 541), (252, 641), 0],
+
+    "5X":                [(32 , 865), (230,1032), 0],
+    "10X":               [(38 , 683), (227, 852), 0],
+    "40X":               [(275, 865), (472,1030), 0],
+    "100X":              [(281, 685), (476, 849), 0]
+}
+
+
+
 up_padding = 0
 left_padding = 300
 
-amt = 2
-brighten = 128
+adjust_value = random.randint(-3000, 3000)/100
+brighten = 50
+
+
+def is_in_button(pos, button):
+    return pos[0] > button[0][0] and pos[0] < button[1][0] and pos[1] > button[0][1] and pos[1] < button[1][1]
+
 
 def blurSurf(surface, amt):
     """
@@ -67,13 +96,32 @@ def blurSurf(surface, amt):
 
 
 def update():
-    global scale_x, scale_y, img_x, img_y, image_x_size, image_y_size, loop, amt, brighten
+    global scale_x, scale_y, img_x, img_y, image_x_size, image_y_size, loop, brighten, adjust_value
 
 
 
     # iterate over the list of Event objects
     # that was returned by pygame.event.get() method.
     for event in pygame.event.get():
+
+        # handle MOUSEBUTTONDOWN
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+
+            for button in button_pos.keys():
+                if(is_in_button(pos, button_pos[button])):
+                    button_pos[button][2] = 1        
+
+        # handle MOUSEBUTTONUP
+        if event.type == pygame.MOUSEBUTTONUP:
+            for button in button_pos.keys():
+                button_pos[button][2] = 0
+
+
+
+        if event.type == pygame.QUIT:
+            loop = False
+
 
         if event.type == pygame.MOUSEWHEEL:
 
@@ -96,17 +144,36 @@ def update():
             image_x_size = X*scale_x 
             image_y_size = Y*scale_y
 
-            # handle MOUSEBUTTONUP
-        if event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
 
-            print(pos)
-            # # get a list of all sprites that are under the mouse cursor
-            # clicked_sprites = [s for s in sprites if s.rect.collidepoint(pos)]
-            # # do something with the clicked sprites...
 
-        if event.type == pygame.QUIT:
-            loop = False
+    if(button_pos["moveX+"][2]):
+        img_x += 10
+    if(button_pos["moveX-"][2]):                
+        img_x -= 10
+    if(button_pos["moveY+"][2]):                   
+        img_y += 10
+    if(button_pos["moveY-"][2]):
+        img_y -= 10    
+    if(button_pos["brighten_inc"][2]):
+        brighten += 10    
+    if(button_pos["brighten_dec"][2]):
+        brighten -= 10    
+    if(button_pos["fast_adjust+"][2]):
+        adjust_value += 0.6    
+    if(button_pos["fast_adjust-"][2]):
+        adjust_value -= 0.6  
+    if(button_pos["slow_adjust+"][2]):
+        adjust_value += 0.1    
+    if(button_pos["slow_adjust-"][2]):
+        adjust_value -= 0.1
+
+    if adjust_value  > 2.7 :
+        adjust_value = 2.7    
+    if adjust_value  < -2.7 :
+        adjust_value = -2.7
+
+    
+
 
     # Get the state of the keys
     keys = pygame.key.get_pressed()
@@ -123,11 +190,9 @@ def update():
     if keys[pygame.K_DOWN]:
         img_y += 20
     if keys[pygame.K_w]:
-        amt += 0.5
+        adjust_value += 0.2
     if keys[pygame.K_s]:
-        amt -= 0.5
-    if amt < 1:
-        amt = 1    
+        adjust_value -= 0.2
     
     if keys[pygame.K_i]:
         brighten += 5
@@ -159,6 +224,8 @@ def update():
 def show():
 
     image = imp.copy()
+
+    amt = abs(adjust_value) * 20  + 1
     image = blurSurf(image, amt)
     image.fill((brighten, brighten, brighten), special_flags=pygame.BLEND_RGB_ADD) 
     image = pygame.transform.scale(image, (int(image_x_size), int(image_y_size)))
