@@ -1,20 +1,31 @@
 import pygame
 import random
 
-#showing image using pay game 
+import settings
 
 
-# activate the pygame library .
-pygame.init()
-X = 1920
-Y = 1080
+settings.init()
+settings.update('width', 600)
+settings.update('page', 1)
+
+
+class windows():
+
+    def __init__(self, name, size):
+        X = size[0]
+        Y = size[1]
  
-# create the display surface object
-# of specific dimension..e(X, Y).
-scrn = pygame.display.set_mode((X, Y))
+        # activate the pygame library .
+        pygame.init()
+        self.scrn = pygame.display.set_mode((X, Y))
+        # set the pygame window name
+        pygame.display.set_caption(name)
+
+
+
+
  
-# set the pygame window name
-pygame.display.set_caption('image')
+
  
 # create a surface object, image is drawn on it.
 imp = pygame.image.load("pathology_irondeficiencyanemia20x03-transformed (1).jpeg").convert()
@@ -76,29 +87,15 @@ adjust_value = random.randint(-3000, 3000)/100
 brighten = 50
 
 
-def is_in_button(pos, button):
-    return pos[0] > button[0][0] and pos[0] < button[1][0] and pos[1] > button[0][1] and pos[1] < button[1][1]
+frame_period = 0
 
 
-def blurSurf(surface, amt):
-    """
-    Blur the given surface by the given 'amount'.  Only values 1 and greater
-    are valid.  Value 1 = no blur.
-    """
-    if amt < 1.0:
-        raise ValueError("Arg 'amt' must be greater than 1.0, passed in value is %s"%amt)
-    scale = 1.0/float(amt)
-    surf_size = surface.get_size()
-    scale_size = (int(surf_size[0]*scale), int(surf_size[1]*scale))
-    surf = pygame.transform.smoothscale(surface, scale_size)
-    surf = pygame.transform.smoothscale(surf, surf_size)
-    return surf
+from functions import *
+from pages import *
 
 
-def update():
+def microscope_update():
     global scale_x, scale_y, img_x, img_y, image_x_size, image_y_size, loop, brighten, adjust_value
-
-
 
     # iterate over the list of Event objects
     # that was returned by pygame.event.get() method.
@@ -174,7 +171,6 @@ def update():
 
     
 
-
     # Get the state of the keys
     keys = pygame.key.get_pressed()
     # Move the image based on the key presses
@@ -218,36 +214,63 @@ def update():
     if(img_y + Y > image_y_size):
         img_y = image_y_size - Y
 
-    
 
-
-def show():
-
+def microscope_show():
     image = imp.copy()
-
     amt = abs(adjust_value) * 20  + 1
     image = blurSurf(image, amt)
     image.fill((brighten, brighten, brighten), special_flags=pygame.BLEND_RGB_ADD) 
     image = pygame.transform.scale(image, (int(image_x_size), int(image_y_size)))
     scrn.blit(image, (-img_x + left_padding , -img_y+ up_padding))
 
-    # scrn.blit(gear_1, ( 200, 20))
+
     scrn.blit(mocroscope_template, (0, 0))
 
+    #green border for microscope_zoom_buttom
     scrn.blit(green_border, (275, 675))
     scrn.blit(green_border, (275, 854))
     scrn.blit(green_border, (30, 854))
     scrn.blit(green_border, (30, 675))
-    # rect = pygame.Rect(0, 0, X, up_padding)
-    # color = (255,255,255)
-    # pygame.draw.rect(scrn, color, pygame.Rect(0, 0, X, up_padding))
+
+
+def microscope_page():
+    microscope_update()
+    microscope_show()
     
+
+    
+
+def mouse_motion():
+    global frame_period
+
+    pygame.mouse.set_visible(False)
+    img_name = "stable_motion2/frame"+str(frame_period)+".png"
+    motion_fram = pygame.image.load(img_name).convert_alpha()
+    motion_fram = pygame.transform.scale(motion_fram, (256, 256))
+    pos = pygame.mouse.get_pos()
+
+    frame_height = motion_fram.get_height()
+    frame_width = motion_fram.get_width()
+    scrn.blit(motion_fram, (pos[0]-frame_width/2, pos[1]-frame_height/2))
+    frame_period += 4
+    if(frame_period >214):frame_period=0
+
+
+def main_loop():
+
+    if(page == 1):
+        page1()    
+    elif(page == 2):
+        page2()
+    elif(page== 100):
+        microscope_page()
+
+
     pygame.display.update()
 
 
 
 while (loop):
-    update()
-    show()
+    main_loop()
 
 pygame.quit()
