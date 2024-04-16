@@ -12,7 +12,7 @@ def init():
     varibles['Y'] = 1080
 
     
-    varibles['page'] = 1
+    varibles['page'] = 100
 
 
     varibles['mouse_motion_fram'] = 0

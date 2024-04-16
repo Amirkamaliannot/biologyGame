@@ -93,96 +93,93 @@ class Microscope():
             if event.type == pygame.MOUSEWHEEL:
 
                 if(event.y > 0):
-                    scale_x += self.scale_step
-                    scale_y += self.scale_step
-                    img_x = img_x + self.X * (self.scale_step/2) 
-                    img_y = img_y + (self.Y) * (self.scale_step/2)
+                    self.scale_x += self.scale_step
+                    self.scale_y += self.scale_step
+                    self.img_x = self.img_x + self.X * (self.scale_step/2) 
+                    self.img_y = self.img_y + (self.Y) * (self.scale_step/2)
 
                 elif (event.y < 0):
-                    scale_x -= self.scale_step
-                    scale_y -= self.scale_step
-                    img_x = img_x - self.X * (self.scale_step/2)
-                    img_y = img_y - (self.Y) * (self.scale_step/2)
+                    self.scale_x -= self.scale_step
+                    self.scale_y -= self.scale_step
+                    self.img_x = self.img_x - self.X * (self.scale_step/2)
+                    self.img_y = self.img_y - (self.Y) * (self.scale_step/2)
 
-                if(scale_x < 1 or scale_y < 1):
-                    scale_x = 1
-                    scale_y = 1
+                if(self.scale_x < 1 or self.scale_y < 1):
+                    self.scale_x = 1
+                    self.scale_y = 1
                 
-                image_x_size = self.X*scale_x 
-                image_y_size = self.Y*scale_y
+                self.image_x_size = self.X*self.scale_x 
+                self.image_y_size = self.Y*self.scale_y
 
 
 
         if(self.button_pos["moveX+"][2]):
-            img_x += 10
+            self.img_x += 10
         if(self.button_pos["moveX-"][2]):                
-            img_x -= 10
+            self.img_x -= 10
         if(self.button_pos["moveY+"][2]):                   
-            img_y += 10
+            self.img_y += 10
         if(self.button_pos["moveY-"][2]):
-            img_y -= 10    
+            self.img_y -= 10    
         if(self.button_pos["brighten_inc"][2]):
-            brighten += 10    
+            self.brighten += 10    
         if(self.button_pos["brighten_dec"][2]):
-            brighten -= 10    
+            self.brighten -= 10    
         if(self.button_pos["fast_adjust+"][2]):
-            adjust_value += 0.6    
+            self.adjust_value += 0.6    
         if(self.button_pos["fast_adjust-"][2]):
-            adjust_value -= 0.6  
+            self.adjust_value -= 0.6  
         if(self.button_pos["slow_adjust+"][2]):
-            adjust_value += 0.1    
+            self.adjust_value += 0.1    
         if(self.button_pos["slow_adjust-"][2]):
-            adjust_value -= 0.1
+            self.adjust_value -= 0.1
 
-        if adjust_value  > 2.7 :
-            adjust_value = 2.7    
-        if adjust_value  < -2.7 :
-            adjust_value = -2.7
+        if self.adjust_value  > 2.7 :
+            self.adjust_value = 2.7    
+        if self.adjust_value  < -2.7 :
+            self.adjust_value = -2.7
 
         
 
         # Get the state of the keys
         keys = pygame.key.get_pressed()
         # Move the image based on the key presses
-        if keys[pygame.K_w]:
-            print(img_x) 
 
         if keys[pygame.K_LEFT]:
-            img_x -= 20
+            self.img_x -= 20
         if keys[pygame.K_RIGHT]:
-            img_x += 20
+            self.img_x += 20
         if keys[pygame.K_UP]:
-            img_y -= 20
+            self.img_y -= 20
         if keys[pygame.K_DOWN]:
-            img_y += 20
+            self.img_y += 20
         if keys[pygame.K_w]:
-            adjust_value += 0.2
+            self.adjust_value += 0.2
         if keys[pygame.K_s]:
-            adjust_value -= 0.2
+            self.adjust_value -= 0.2
         
         if keys[pygame.K_i]:
-            brighten += 5
+            self.brighten += 5
         if keys[pygame.K_k]:
-            print(brighten)
-            brighten -= 5
-        if brighten < 0:
-            brighten = 0    
-        if brighten > 240:
-            brighten = 240
+            self.brighten -= 5
+        if self.brighten < 0:
+            self.brighten = 0    
+        if self.brighten > 240:
+            self.brighten = 240
 
 
         #keep in box
-        if( -(img_x -self.left_padding) > self.start_scope_x):
-            img_x = -(self.start_scope_x - self.left_padding)
+        if( -(self.img_x -self.left_padding) > self.start_scope_x):
+            self.img_x = -(self.start_scope_x - self.left_padding)
 
-        if(image_x_size-img_x < self.end_scope_x):
+        if(self.image_x_size-self.img_x < self.end_scope_x):
 
-            img_x = -(self.end_scope_x - image_x_size)
+            self.img_x = -(self.end_scope_x - self.image_x_size)
 
-        if(img_y < 0):
-            img_y = 0
-        if(img_y + self.Y > image_y_size):
-            img_y = image_y_size - self.Y
+        if(self.img_y < 0):
+            self.img_y = 0
+        if(self.img_y + self.Y > self.image_y_size):
+            self.img_y = self.image_y_size - self.Y
 
 
     def microscope_show(self, scrn):

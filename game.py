@@ -19,14 +19,14 @@ def main_loop():
     elif(Settings.varibles['page'] == 2):
         page2(windows.scrn)
     elif(Settings.varibles['page']== 100):
-        microscope.microscope_page()
+        microscope.microscope_page(windows.scrn)
 
 
     pygame.display.update()
 
 
 
-while (Settings.varibles['loop']):
-    main_loop()
-
-pygame.quit()
+if __name__ == '__main__':
+    while (Settings.varibles['loop']):
+        main_loop()
+    pygame.quit()
