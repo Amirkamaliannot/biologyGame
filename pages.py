@@ -1,6 +1,7 @@
 import pygame
 import random
 import Settings
+import Mouse
 
 
 
@@ -22,11 +23,11 @@ def page1_update():
 def page1_show(scrn):
 
 
-    img_name = "pages/page1.png"
+    img_name = "images/pages/page1.png"
     motion_fram = pygame.image.load(img_name).convert_alpha()
     scrn.blit(motion_fram, (0,0))
 
-    # mouse_motion()
+    Mouse.mouse_motion(scrn)
 
 def page1(scrn):
     page1_update()
@@ -54,11 +55,11 @@ def page2_update():
 def page2_show(scrn):
 
 
-    img_name = "pages/page2.png"
+    img_name = "images/pages/page2.png"
     motion_fram = pygame.image.load(img_name).convert_alpha()
     scrn.blit(motion_fram, (0,0))
 
-    # mouse_motion()
+    Mouse.mouse_motion(scrn)
 
 def page2(scrn):
     page2_update()

@@ -5,6 +5,8 @@ def is_in_button(pos, button):
     return pos[0] > button[0][0] and pos[0] < button[1][0] and pos[1] > button[0][1] and pos[1] < button[1][1]
 
 
+
+
 def blurSurf(surface, amt):
     """
     Blur the given surface by the given 'amount'.  Only values 1 and greater
