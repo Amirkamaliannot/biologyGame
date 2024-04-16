@@ -3,7 +3,6 @@ import random
 import Functions
 import Settings
 
-print(123123123)
 
 class Windows():
 
