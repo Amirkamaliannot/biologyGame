@@ -201,5 +201,6 @@ class Microscope():
 
 
     def microscope_page(self, scrn):
+        pygame.mouse.set_visible(True)
         self.microscope_update()
         self.microscope_show(scrn)
