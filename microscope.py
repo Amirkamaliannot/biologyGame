@@ -80,12 +80,24 @@ class Microscope():
 
                 for button in self.button_pos.keys():
                     if(Functions.is_in_button(pos, self.button_pos[button])):
-                        self.button_pos[button][2] = 1        
+                        self.button_pos[button][2] = 1   
+
+
+                # left click
+                if(event.button == 1 and Functions.is_in_button(pos, ((0,20), (0 + 90, 20+60)))):
+                    Settings.varibles['page'] += 1
+                #right click            
+                if(event.button == 3):
+                    Settings.varibles['page'] -= 1     
+
+
 
             # handle MOUSEBUTTONUP
             if event.type == pygame.MOUSEBUTTONUP:
                 for button in self.button_pos.keys():
                     self.button_pos[button][2] = 0
+
+
 
 
 
@@ -144,9 +156,6 @@ class Microscope():
         if self.adjust_value  < -2.7 :
             self.adjust_value = -2.7
 
-        
-
-
         # Get the state of the keys
         keys = pygame.key.get_pressed()
         # Move the image based on the key presses
@@ -200,9 +209,6 @@ class Microscope():
 
         scrn.blit(self.mocroscope_template, (0, 0))
 
-
-        scrn.blit(self.green_border, ( -1230-self.left_padding , 300))
-
         #green border for microscope_zoom_buttom
         if(self.zoom ==1):
             scrn.blit(self.green_border, (30, 854))
@@ -212,6 +218,15 @@ class Microscope():
             scrn.blit(self.green_border, (275, 854))
         elif(self.zoom ==4):
             scrn.blit(self.green_border, (275, 675))
+
+
+        next_icon = "images/next.png"
+        next_icon = pygame.image.load(next_icon).convert_alpha()
+        scrn.blit(next_icon, (0,20))    
+        
+        perv_icon = "images/perv.png"
+        perv_icon = pygame.image.load(perv_icon).convert_alpha()
+        scrn.blit(perv_icon, (scrn.get_width()- perv_icon.get_width(),20))
 
 
     def microscope_page(self, scrn):

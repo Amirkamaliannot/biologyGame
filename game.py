@@ -44,7 +44,7 @@ def main_loop():
         page14(windows.scrn)    
     elif(Settings.varibles['page'] == 15):
         page15(windows.scrn)
-    elif(Settings.varibles['page']== 100):
+    elif(Settings.varibles['page'] == 16):
         microscope.microscope_page(windows.scrn)
 
 

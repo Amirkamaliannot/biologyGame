@@ -593,7 +593,7 @@ def page15_update():
 
             #left click
             if(event.button == 1):
-                Settings.varibles['page'] = 100
+                Settings.varibles['page'] += 1
             #right click            
             if(event.button == 3):
                 Settings.varibles['page'] -= 1
