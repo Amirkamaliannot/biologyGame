@@ -31,6 +31,7 @@ class Microscope():
         self.img_y = 0
         self.image_x_size= self.X* self.scale_x
         self.image_y_size = self.Y* self.scale_y
+        self.zoom = 1
 
 
         self.button_pos = {
@@ -50,15 +51,15 @@ class Microscope():
             "brighten_dec":      [(22 , 541), (252, 641), 0],
 
 
-            "5X":                [(32 , 865), (230,1032), 0],
+            "4X":                [(32 , 865), (230,1032), 0],
             "10X":               [(38 , 683), (227, 852), 0],
             "40X":               [(275, 865), (472,1030), 0],
             "100X":              [(281, 685), (476, 849), 0]
         }
 
 
-        self.up_padding = 0
-        self.left_padding = 300
+        self.left_padding = (0.6406* self.X) - self.image_x_size/2
+        self.up_padding = (0.5* self.Y) - self.image_y_size/2
 
         self.adjust_value = random.randint(-3000, 3000)/100
         self.brighten = 50
@@ -88,31 +89,6 @@ class Microscope():
 
 
 
-
-
-            if event.type == pygame.MOUSEWHEEL:
-
-                if(event.y > 0):
-                    self.scale_x += self.scale_step
-                    self.scale_y += self.scale_step
-                    self.img_x = self.img_x + self.X * (self.scale_step/2) 
-                    self.img_y = self.img_y + (self.Y) * (self.scale_step/2)
-
-                elif (event.y < 0):
-                    self.scale_x -= self.scale_step
-                    self.scale_y -= self.scale_step
-                    self.img_x = self.img_x - self.X * (self.scale_step/2)
-                    self.img_y = self.img_y - (self.Y) * (self.scale_step/2)
-
-                if(self.scale_x < 1 or self.scale_y < 1):
-                    self.scale_x = 1
-                    self.scale_y = 1
-                
-                self.image_x_size = self.X*self.scale_x 
-                self.image_y_size = self.Y*self.scale_y
-
-
-
         if(self.button_pos["moveX+"][2]):
             self.img_x += 10
         if(self.button_pos["moveX-"][2]):                
@@ -132,7 +108,36 @@ class Microscope():
         if(self.button_pos["slow_adjust+"][2]):
             self.adjust_value += 0.1    
         if(self.button_pos["slow_adjust-"][2]):
-            self.adjust_value -= 0.1
+            self.adjust_value -= 0.1        
+            
+
+        #zooming functionality
+        zoom = False
+        if(self.button_pos["4X"][2] and self.zoom != 1):
+            zoom = 1
+            self.zoom = 1   
+        elif(self.button_pos["10X"][2] and self.zoom != 2):
+            zoom = 1.5
+            self.zoom = 2        
+        elif(self.button_pos["40X"][2] and self.zoom != 3):
+            zoom = 2.2
+            self.zoom = 3       
+        elif(self.button_pos["100X"][2] and self.zoom != 4):
+            zoom = 4.2
+            self.zoom = 4
+
+        if(zoom):
+            self.scale_y = zoom
+            self.scale_x = zoom
+            center_rate_x =((0.6406* self.X) -(-self.img_x + self.left_padding))/self.image_x_size
+            center_rate_y =((0.5* self.Y) -(-self.img_y + self.up_padding))/self.image_y_size 
+            self.image_x_size = self.X*self.scale_x 
+            self.image_y_size = self.Y*self.scale_y
+            self.img_x = ((0.6406* self.X) - self.image_x_size * center_rate_x - self.left_padding) * -1
+            self.img_y = ((0.5* self.Y) - self.image_y_size * center_rate_y - self.up_padding) * -1  
+
+
+
 
         if self.adjust_value  > 2.7 :
             self.adjust_value = 2.7    
@@ -140,6 +145,7 @@ class Microscope():
             self.adjust_value = -2.7
 
         
+
 
         # Get the state of the keys
         keys = pygame.key.get_pressed()
@@ -189,15 +195,23 @@ class Microscope():
         image.fill((self.brighten, self.brighten, self.brighten), special_flags=pygame.BLEND_RGB_ADD) 
         image = pygame.transform.scale(image, (int(self.image_x_size), int(self.image_y_size)))
 
+
         scrn.blit(image, (-self.img_x + self.left_padding , -self.img_y+ self.up_padding))
 
         scrn.blit(self.mocroscope_template, (0, 0))
 
+
+        scrn.blit(self.green_border, ( -1230-self.left_padding , 300))
+
         #green border for microscope_zoom_buttom
-        scrn.blit(self.green_border, (275, 675))
-        scrn.blit(self.green_border, (275, 854))
-        scrn.blit(self.green_border, (30, 854))
-        scrn.blit(self.green_border, (30, 675))
+        if(self.zoom ==1):
+            scrn.blit(self.green_border, (30, 854))
+        elif(self.zoom ==2):
+            scrn.blit(self.green_border, (30, 675))
+        elif(self.zoom ==3):
+            scrn.blit(self.green_border, (275, 854))
+        elif(self.zoom ==4):
+            scrn.blit(self.green_border, (275, 675))
 
 
     def microscope_page(self, scrn):
