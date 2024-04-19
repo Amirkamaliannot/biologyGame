@@ -24,22 +24,22 @@ class Microscope():
         self.end_scope_x = int(self.X/1.097)
 
         
-        self.scale_x = 1
-        self.scale_y = 1
+        self.scale_x = 1.5
+        self.scale_y = 1.5
         self.scale_step = 0.5
         self.img_x = 0
         self.img_y = 0
         self.image_x_size= self.X* self.scale_x
         self.image_y_size = self.Y* self.scale_y
-        self.zoom = 1
+        self.zoom = 2
 
 
         self.button_pos = {
-            "moveX-":            [(36 , 83 ), (132, 158), 0],
-            "moveX+":            [(142, 86 ), (236, 159), 0],
+            "moveY-":            [(36 , 83 ), (132, 158), 0],
+            "moveY+":            [(142, 86 ), (236, 159), 0],
             
-            "moveY-":            [(36 , 200), (132, 274), 0],
-            "moveY+":            [(137, 201), (233, 271), 0],
+            "moveX-":            [(36 , 200), (132, 274), 0],
+            "moveX+":            [(137, 201), (233, 271), 0],
 
             "fast_adjust-":      [(36 , 310), (128, 383), 0],
             "fast_adjust+":      [(138, 312), (233, 385), 0],
@@ -147,6 +147,9 @@ class Microscope():
             self.image_y_size = self.Y*self.scale_y
             self.img_x = ((0.6406* self.X) - self.image_x_size * center_rate_x - self.left_padding) * -1
             self.img_y = ((0.5* self.Y) - self.image_y_size * center_rate_y - self.up_padding) * -1  
+
+            #restart adjust
+            self.adjust_value = random.randint(-3000, 3000)/100
 
 
 
