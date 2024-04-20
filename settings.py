@@ -1,5 +1,5 @@
 # Settings.py
-
+import Functions
 
 
 def init():
@@ -16,6 +16,11 @@ def init():
 
 
     varibles['mouse_motion_fram'] = 0
+
+
+    varibles['data_dict'] =  Functions.decompress_images('./data')
+
+
 
 def update(key, value):
 

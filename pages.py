@@ -24,8 +24,10 @@ def page1_update():
 def page1_show(scrn):
 
 
-    img_name = "images/pages/page1.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page1.png"
+    motion_fram = Functions.loadImage(img_name)
+
+
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -46,8 +48,7 @@ def page2_init(scrn):
         scrn_w = scrn.get_width()
 
         pos = (random.randint(0, scrn_w*0.8),  random.randint(scrn_h *0.4, scrn_h * 0.8))
-        pygame.image.load("images/moving-img"+str(i)+".png").convert_alpha().get_width
-        object_list.append( {"img":pygame.image.load("images/moving-img"+str(i)+".png").convert_alpha(), 
+        object_list.append( {"img": Functions.loadImage("vectors/moving-img"+str(i)+".png"), 
                              'pos':pos, 
                              'clicked':False,
                              'click_pos' : (0,0)
@@ -110,16 +111,17 @@ def page2_show(scrn, object_list):
 
     click = 0
 
-    img_name = "images/pages/page2.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page2.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))    
     
-    next_icon = "images/next.png"
-    next_icon = pygame.image.load(next_icon).convert_alpha()
+    next_icon = "vectors/next.png"
+    next_icon = Functions.loadImage(next_icon)
     scrn.blit(next_icon, (0,20))    
     
-    perv_icon = "images/perv.png"
-    perv_icon = pygame.image.load(perv_icon).convert_alpha()
+    perv_icon = "vectors/perv.png"
+    perv_icon = Functions.loadImage(perv_icon)
+
     scrn.blit(perv_icon, (scrn.get_width()- perv_icon.get_width(),20))
 
     for i in object_list:
@@ -173,8 +175,8 @@ def page3_update():
 def page3_show(scrn):
 
 
-    img_name = "images/pages/page3.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page3.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -209,8 +211,8 @@ def page4_update():
 def page4_show(scrn):
 
 
-    img_name = "images/pages/page4.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page4.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -245,8 +247,8 @@ def page5_update():
 def page5_show(scrn):
 
 
-    img_name = "images/pages/page5.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page5.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -281,8 +283,8 @@ def page6_update():
 def page6_show(scrn):
 
 
-    img_name = "images/pages/page6.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page6.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -317,8 +319,8 @@ def page7_update():
 def page7_show(scrn):
 
 
-    img_name = "images/pages/page7.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page7.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -352,8 +354,8 @@ def page8_update():
 
 def page8_show(scrn):
 
-    img_name = "images/pages/page8.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page8.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -388,8 +390,8 @@ def page9_update():
 def page9_show(scrn):
 
 
-    img_name = "images/pages/page9.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page9.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -424,8 +426,8 @@ def page10_update():
 def page10_show(scrn):
 
 
-    img_name = "images/pages/page10.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page10.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -459,8 +461,8 @@ def page11_update():
 def page11_show(scrn):
 
 
-    img_name = "images/pages/page11.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page11.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -495,8 +497,8 @@ def page12_update():
 def page12_show(scrn):
 
 
-    img_name = "images/pages/page12.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page12.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -531,8 +533,8 @@ def page13_update():
 def page13_show(scrn):
 
 
-    img_name = "images/pages/page13.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page13.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -567,8 +569,8 @@ def page14_update():
 def page14_show(scrn):
 
 
-    img_name = "images/pages/page14.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page14.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
@@ -603,8 +605,8 @@ def page15_update():
 def page15_show(scrn):
 
 
-    img_name = "images/pages/page15.png"
-    motion_fram = pygame.image.load(img_name).convert_alpha()
+    img_name = "pages/page15.png"
+    motion_fram = Functions.loadImage(img_name)
     scrn.blit(motion_fram, (0,0))
 
     Mouse.mouse_motion(scrn)
